@@ -11,13 +11,7 @@ class ToolProxyController < ApplicationController
     #TODO TCP retrieval
     tool_consumer_profile = IMS::LTI::Models::ToolConsumerProfile.new.from_json(response.body)
 
-    #TODO RestServices convert to RestServiceProfiles
-    tool_service = tool_consumer_profile.services_offered.map do |service|
-      IMS::LTI::Models::RestServiceProfile.new(
-        service: "#{registration_request.tc_profile_url}##{service.id.gsub( 'tcp:', '')}",
-        action: service.action
-      )
-    end
+    tool_service = tool_consumer_profile.services_offered.map(&:profile)
 
     security_contract = IMS::LTI::Models::SecurityContract.new(
         shared_secret: 'secret',

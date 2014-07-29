@@ -44,8 +44,7 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'ims-lti', path: '/Users/brad/Development/gems/ims-lti'
-#gem 'ims-lti', git: 'https://github.com/instructure/ims-lti.git', branch: '2.0.x'
+gem 'ims-lti', git: 'https://github.com/instructure/ims-lti.git', branch: '2.0.x'
 
 gem 'faraday_middleware'
 gem 'simple_oauth'

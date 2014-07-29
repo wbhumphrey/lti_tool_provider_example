@@ -1,9 +1,11 @@
-PATH
-  remote: /Users/brad/Development/gems/ims-lti
+GIT
+  remote: https://github.com/instructure/ims-lti.git
+  revision: dd25fbc4b7a488aba072843ae7b344628c252739
+  branch: 2.0.x
   specs:
     ims-lti (2.0.0.beta.1)
-      json-ld (~> 1.1.4)
       oauth (~> 0.4.7)
+      simple_oauth (~> 0.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -64,8 +66,6 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.1)
-    json-ld (1.1.5)
-      rdf (~> 1.1, >= 1.1.4)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -97,7 +97,6 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.3.2)
-    rdf (1.1.4.2)
     rdoc (4.1.1)
       json (~> 1.4)
     sass (3.2.19)
