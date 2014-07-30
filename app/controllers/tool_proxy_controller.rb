@@ -1,11 +1,9 @@
-require 'faraday_middleware'
-
 class ToolProxyController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
     registration_request = IMS::LTI::Models::Messages::RegistrationRequest.new(params)
-    registration_service = ToolProxyRegistrationService.new(registration_request)
+    registration_service = IMS::LTI::Services::ToolProxyRegistrationService.new(registration_request)
     tool_consumer_profile = registration_service.tool_consumer_profile
 
     tool_service = registration_service.service_profiles

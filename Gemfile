@@ -46,9 +46,6 @@ end
 
 gem 'ims-lti', git: 'https://github.com/instructure/ims-lti.git', branch: '2.0.x'
 
-gem 'faraday_middleware'
-gem 'simple_oauth'
-
 group :development do
   gem 'pry', require: 'pry'
   gem 'debugger', require: 'debugger'
