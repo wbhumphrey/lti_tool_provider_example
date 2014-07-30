@@ -5,17 +5,15 @@ class ToolProxyController < ApplicationController
 
   def create
     registration_request = IMS::LTI::Models::Messages::RegistrationRequest.new(params)
+    registration_service = ToolProxyRegistrationService.new(registration_request)
+    tool_consumer_profile = registration_service.tool_consumer_profile
 
-    connection = Faraday.new
-    response = connection.get(registration_request.tc_profile_url)
-    #TODO TCP retrieval
-    tool_consumer_profile = IMS::LTI::Models::ToolConsumerProfile.new.from_json(response.body)
-
-    tool_service = tool_consumer_profile.services_offered.map(&:profile)
+    tool_service = registration_service.service_profiles
+    #filter out unwanted services
 
     security_contract = IMS::LTI::Models::SecurityContract.new(
         shared_secret: 'secret',
-        tool_service: tool_service,
+        # tool_service: tool_service,
         # end_user_service: [IMS::LTI::Models::RestServiceProfile.new]
     )
 
@@ -27,26 +25,7 @@ class ToolProxyController < ApplicationController
         tool_profile: tool_profile,
     )
 
-    #TODO Helper method in gem to retrieve service by service id and optionally action
-    tool_consumer_service = tool_consumer_profile.services_offered.find{|service| service.id == 'tcp:ToolProxy.collection' && service.action.include?('POST')}
-
-    #TODO Implement API client for standardized services
-    conn = Faraday.new do |conn|
-      conn.request :oauth, consumer_key: registration_request.reg_key, consumer_secret: registration_request.reg_password
-      conn.response :logger
-      conn.adapter :net_http
-    end
-
-    #TODO try using simple oauth to generate signed params for messages
-
-    response = conn.post do |req|
-      req.url tool_consumer_service.endpoint
-      req.headers['Content-Type'] = 'application/json'
-      req.body = tool_proxy.to_json
-    end
-
-    #proxy created successfully
-    if response.status == 201
+    if registration_service.register_tool_proxy(tool_proxy)
       redirect_to registration_request.launch_presentation_return_url
     else
       render text: "Failed to create a tool proxy in #{tool_consumer_profile.product_instance.product_info.product_name.default_value}"
