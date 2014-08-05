@@ -1,10 +1,8 @@
 source 'https://rubygems.org'
+ruby '2.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.5'
-
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
@@ -36,17 +34,16 @@ end
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn-rails'
 
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 
 gem 'ims-lti', git: 'https://github.com/instructure/ims-lti.git', branch: '2.0.x'
 
-group :development do
+group :development, :test do
   gem 'pry', require: 'pry'
-  gem 'debugger', require: 'debugger'
 end
+
+gem 'sqlite3', group: [:development, :test]
+gem 'pg', group: :production
+
+gem 'rails_12factor'
