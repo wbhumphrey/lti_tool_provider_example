@@ -34,7 +34,7 @@ end
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
-gem 'unicorn-rails'
+gem 'unicorn'
 
 
 gem 'ims-lti', git: 'https://github.com/instructure/ims-lti.git', branch: '2.0.x'

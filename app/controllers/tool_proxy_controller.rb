@@ -42,7 +42,7 @@ class ToolProxyController < ApplicationController
   def tool_profile
     message = IMS::LTI::Models::MessageHandler.new(
         message_type: 'basic-lti-launch-request',
-        path: "my-tool-launch",
+        path: messages_blti_url,
     )
 
     IMS::LTI::Models::ToolProfile.new(

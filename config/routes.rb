@@ -16,6 +16,8 @@ LtiToolProvider::Application.routes.draw do
 
   resources :tool_proxy, only: [:create]
 
+  post 'messages/blti', to: 'message#basic_lti_launch_request'
+
   # Example resource route with options:
   #   resources :products do
   #     member do
