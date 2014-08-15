@@ -4,29 +4,30 @@ class ToolProxyController < ApplicationController
   def create
     registration_request = IMS::LTI::Models::Messages::RegistrationRequest.new(params)
     registration_service = IMS::LTI::Services::ToolProxyRegistrationService.new(registration_request)
-    tool_consumer_profile = registration_service.tool_consumer_profile
+    @tool_consumer_profile = registration_service.tool_consumer_profile
 
     tool_service = registration_service.service_profiles
     #filter out unwanted services
 
     security_contract = IMS::LTI::Models::SecurityContract.new(
-        shared_secret: 'secret',
-        # tool_service: tool_service,
-        # end_user_service: [IMS::LTI::Models::RestServiceProfile.new]
+      shared_secret: 'secret',
+    # tool_service: tool_service,
+    # end_user_service: [IMS::LTI::Models::RestServiceProfile.new]
     )
 
     tool_proxy = IMS::LTI::Models::ToolProxy.new(
-        id: "instructure.com/tool-provider-example:#{SecureRandom.uuid}",
-        lti_version: 'LTI-2p0',
-        security_contract: security_contract,
-        tool_consumer_profile: registration_request.tc_profile_url,
-        tool_profile: tool_profile,
+      id: "instructure.com/tool-provider-example:#{SecureRandom.uuid}",
+      lti_version: 'LTI-2p0',
+      security_contract: security_contract,
+      tool_consumer_profile: registration_request.tc_profile_url,
+      tool_profile: tool_profile,
     )
+
 
     if registration_service.register_tool_proxy(tool_proxy)
       redirect_to registration_request.launch_presentation_return_url
     else
-      render text: "Failed to create a tool proxy in #{tool_consumer_profile.product_instance.product_info.product_name.default_value}"
+      render text: "Failed to create a tool proxy in #{@tool_consumer_profile.product_instance.product_info.product_name.default_value}"
     end
   end
 
@@ -41,14 +42,27 @@ class ToolProxyController < ApplicationController
 
   def tool_profile
     message = IMS::LTI::Models::MessageHandler.new(
-        message_type: 'basic-lti-launch-request',
-        path: messages_blti_url,
+      message_type: 'basic-lti-launch-request',
+      path: messages_blti_url,
+      parameter: variable_parameters + fixed_parameters
     )
 
     IMS::LTI::Models::ToolProfile.new(
-        lti_version: 'LTI-2p0',
-        product_instance: product_instance,
-        message: message
+      lti_version: 'LTI-2p0',
+      product_instance: product_instance,
+      message: message
     )
   end
+
+  def variable_parameters
+    parameters = @tool_consumer_profile.capability_offered - (IMS::LTI::Models::ToolConsumerProfile::MESSAGING_CAPABILITIES + IMS::LTI::Models::ToolConsumerProfile::OUTCOMES_CAPABILITIES)
+    parameters.map { |p| IMS::LTI::Models::Parameter.new(name: p.downcase.gsub('.', '_'), variable: p) }
+  end
+
+  def fixed_parameters
+    [
+      IMS::LTI::Models::Parameter.new(name: 'fixed_value_param', fixed: 42)
+    ]
+  end
+
 end

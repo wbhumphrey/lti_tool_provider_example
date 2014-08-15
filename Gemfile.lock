@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/instructure/ims-lti.git
-  revision: 6b2438822825a40ea689587ebc54c9170aa78372
-  branch: 2.0.x
-  specs:
-    ims-lti (2.0.0.beta.3)
-      faraday (~> 0.8)
-      faraday_middleware (~> 0.8)
-      simple_oauth (~> 0.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -53,6 +43,10 @@ GEM
       faraday (>= 0.7.4, < 0.10)
     hike (1.2.3)
     i18n (0.6.11)
+    ims-lti (2.0.0.beta.5)
+      faraday (~> 0.8)
+      faraday_middleware (~> 0.8)
+      simple_oauth (~> 0.2)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -143,7 +137,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
-  ims-lti!
+  ims-lti (~> 2.0.0.beta.5)
   jbuilder (~> 1.2)
   jquery-rails
   pg

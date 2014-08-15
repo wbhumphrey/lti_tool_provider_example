@@ -37,7 +37,7 @@ end
 gem 'unicorn'
 
 
-gem 'ims-lti', git: 'https://github.com/instructure/ims-lti.git', branch: '2.0.x'
+gem 'ims-lti', '~> 2.0.0.beta.5'
 
 group :development, :test do
   gem 'pry', require: 'pry'
