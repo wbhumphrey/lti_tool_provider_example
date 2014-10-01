@@ -37,7 +37,7 @@ end
 gem 'unicorn'
 
 
-gem 'ims-lti', '~> 2.0.0.beta.5'
+gem 'ims-lti', '~> 2.0.0.beta.8'
 
 group :development, :test do
   gem 'pry', require: 'pry'

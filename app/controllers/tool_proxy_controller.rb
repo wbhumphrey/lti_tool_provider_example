@@ -23,7 +23,6 @@ class ToolProxyController < ApplicationController
       tool_profile: tool_profile,
     )
 
-
     if registration_service.register_tool_proxy(tool_proxy)
       redirect_to registration_request.launch_presentation_return_url
     else
@@ -47,15 +46,25 @@ class ToolProxyController < ApplicationController
       parameter: variable_parameters + fixed_parameters
     )
 
+    resource_handler = IMS::LTI::Models::ResourceHandler.from_json(
+      {
+        resource_type: {code: 'placements'},
+        resource_name: {default_value: 'lti_example_tool', key: ''},
+        message: message.as_json
+      }
+    )
+    resource_handler.ext_placements = placements if placements.present?
+
+
     IMS::LTI::Models::ToolProfile.new(
       lti_version: 'LTI-2p0',
       product_instance: product_instance,
-      message: message
+      resource_handler: [resource_handler]
     )
   end
 
   def variable_parameters
-    parameters = @tool_consumer_profile.capability_offered - (IMS::LTI::Models::ToolConsumerProfile::MESSAGING_CAPABILITIES + IMS::LTI::Models::ToolConsumerProfile::OUTCOMES_CAPABILITIES)
+    parameters = @tool_consumer_profile.capability_offered - (IMS::LTI::Models::ToolConsumerProfile::MESSAGING_CAPABILITIES + IMS::LTI::Models::ToolConsumerProfile::OUTCOMES_CAPABILITIES + ['Canvas.placements.course-nav', 'Canvas.placements.account-nav'] )
     parameters.map { |p| IMS::LTI::Models::Parameter.new(name: p.downcase.gsub('.', '_'), variable: p) }
   end
 
@@ -63,6 +72,10 @@ class ToolProxyController < ApplicationController
     [
       IMS::LTI::Models::Parameter.new(name: 'fixed_value_param', fixed: 42)
     ]
+  end
+
+  def placements
+    @tool_consumer_profile.capability_offered & ['Canvas.placements.course-nav', 'Canvas.placements.account-nav']
   end
 
 end
