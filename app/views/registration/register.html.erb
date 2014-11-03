@@ -1,0 +1,35 @@
+<h1>Select the capabilities you want to use</h1>
+<form method="post" action="<%= save_capabilities_path %>">
+  <input type="hidden" name="reg_id" value="<%= @registration.id %>"
+
+  <div>
+    <h3>Variable Paramaters</h3>
+    <table>
+      <tr>
+        <th>enable?</th>
+        <th>name</th>
+        <th>variable</th>
+      </tr>
+      <% @capabilities[:parameters].each do |cap| %>
+        <tr>
+          <td><input type="checkbox" value="true" name="variable_parameters[<%= cap %>][enabled]"/></td>
+          <td><input type="text" value="<%= cap.downcase.gsub('.', '_') %>" name="variable_parameters[<%= cap %>][name]"/></td>
+          <td><%= cap %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div>
+    <h3>Placements</h3>
+    <ul>
+      <% @capabilities[:placements].each do |cap| %>
+        <li>
+          <input type="checkbox" value="true" name="placements[Canvas.placements.<%= cap %>][enabled]"> <%= cap %> </input>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <input type="submit" value="Submit">
+</form>
