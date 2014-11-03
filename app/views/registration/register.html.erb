@@ -1,6 +1,6 @@
 <h1>Select the capabilities you want to use</h1>
 <form method="post" action="<%= save_capabilities_path %>">
-  <input type="hidden" name="reg_id" value="<%= @registration.id %>"
+  <input type="hidden" name="reg_id" value="<%= @registration.id %>" />
 
   <div>
     <h3>Variable Paramaters</h3>
@@ -22,7 +22,7 @@
 
   <div>
     <h3>Placements</h3>
-    <ul>
+    <ul style="list-style-type:none;">
       <% @capabilities[:placements].each do |cap| %>
         <li>
           <input type="checkbox" value="true" name="placements[Canvas.placements.<%= cap %>][enabled]"> <%= cap %> </input>
