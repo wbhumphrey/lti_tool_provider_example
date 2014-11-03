@@ -23,8 +23,8 @@ class RegistrationController < ApplicationController
 
   def save_capabilities
     registration = RailsLti2Provider::Registration.find(params["reg_id"])
-    parameters = params['variable_parameters'].select { |_, v| v['enabled'] }
-    placements = params['placements'].select { |_, v| v['enabled'] }
+    parameters = params['variable_parameters'] ? params['variable_parameters'].select { |_, v| v['enabled'] } : []
+    placements = params['placements'] ? params['placements'].select { |_, v| v['enabled'] } : []
     tool_proxy = registration.tool_proxy
     tool_proxy.tool_profile
     tool_proxy
