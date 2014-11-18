@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from RailsLti2Provider::LtiLaunch::Unauthorized do |ex|
-    render :nothing => true, :status => 401
+    render :text => 'Unauthorized', :status => 401
   end
 
 end
