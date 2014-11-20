@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/rivernate/rails_lti2_provider.git
-  revision: aeb94d19b53f9c1046779a1b5e3a6a74511706ee
-  ref: aeb94d19b53f9c1046779a1b5e3a6a74511706ee
+  revision: dc69e4dcdf68d164c8b41420842ae30e3307d13c
+  ref: dc69e4dcdf68d164c8b41420842ae30e3307d13c
   specs:
     rails_lti2_provider (0.0.1)
       ims-lti (~> 2.0.0.beta.11)
