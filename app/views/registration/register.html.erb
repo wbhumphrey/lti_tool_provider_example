@@ -1,35 +1,47 @@
-<h1>Select the capabilities you want to use</h1>
-<form method="post" action="<%= save_capabilities_path %>">
-  <input type="hidden" name="reg_id" value="<%= @registration.id %>" />
+<div class="container">
+  <form style="padding-bottom: 20px;">
+    <h3>Select the capabilities you want to use:</h3>
 
-  <div>
-    <h3>Variable Paramaters</h3>
-    <table>
-      <tr>
-        <th>enable?</th>
-        <th>name</th>
-        <th>variable</th>
-      </tr>
-      <% @capabilities[:parameters].each do |cap| %>
+    <form method="post" action="<%= save_capabilities_path %>">
+      <input type="hidden" name="reg_id" value="<%= @registration.id %>" />
+
+      <p>Select which variable parameters you would like to pass along with their values</p>
+      <table class="table table-condensed" style="background-color: white;">
+        <thead>
         <tr>
-          <td><input type="checkbox" value="true" name="variable_parameters[<%= cap %>][enabled]"/></td>
-          <td><input type="text" value="<%= cap.downcase.gsub('.', '_') %>" name="variable_parameters[<%= cap %>][name]"/></td>
-          <td><%= cap %></td>
+          <th class="text-center">Enable?</th>
+          <th>Returned Field Name</th>
+          <th>LTI&trade; Variable</th>
         </tr>
-      <% end %>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+        <% @capabilities[:parameters].each do |cap| %>
+          <tr>
+            <td class="text-center" style="line-height: 2.2;">
+              <label style="display: block;">
+                <input type="checkbox" value="true" name="variable_parameters[<%= cap %>][enabled]"/>
+              </label>
+            </td>
+            <td><input type="text" class="form-control" value="<%= cap.downcase.gsub('.', '_') %>" name="variable_parameters[<%= cap %>][name]"/></td>
+            <td style="line-height: 2.2;"><%= cap %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
 
-  <div>
-    <h3>Placements</h3>
-    <ul style="list-style-type:none;">
+      <p><strong>Where would you like this app to appear?</strong></p> 
       <% @capabilities[:placements].each do |cap| %>
-        <li>
-          <input type="checkbox" value="true" name="placements[Canvas.placements.<%= cap %>][enabled]"> <%= cap %> </input>
-        </li>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="true" name="placements[Canvas.placements.<%= cap %>][enabled]">
+            <%= display_cap(cap) %>
+          </label>
+        </div>
       <% end %>
-    </ul>
-  </div>
 
-  <input type="submit" value="Submit">
-</form>
+      <div style="padding-top: 15px; margin-top: 15px; border-top: 1px solid #DDDDDD;">
+        <input type="submit" class="btn btn-primary" value="Submit">
+      </div>
+    </form>
+  </form>
+</div>
