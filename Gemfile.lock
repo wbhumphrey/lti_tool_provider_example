@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/rivernate/rails_lti2_provider.git
-  revision: dc69e4dcdf68d164c8b41420842ae30e3307d13c
-  ref: dc69e4dcdf68d164c8b41420842ae30e3307d13c
+  revision: 76d0430dbf96deea1daef3af819c1b00ed3f0e65
+  ref: 76d0430dbf96deea1daef3af819c1b00ed3f0e65
   specs:
     rails_lti2_provider (0.0.1)
-      ims-lti (~> 2.0.0.beta.11)
+      ims-lti (~> 2.0.0.beta.17)
       rails (~> 4.1.6)
 
 GEM
@@ -48,13 +48,13 @@ GEM
     coffee-script-source (1.8.0)
     erubis (2.7.0)
     execjs (2.2.2)
-    faraday (0.9.0)
+    faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
     hike (1.2.3)
     i18n (0.6.11)
-    ims-lti (2.0.0.beta.14)
+    ims-lti (2.0.0.beta.18)
       faraday (~> 0.8)
       faraday_middleware (~> 0.8)
       simple_oauth (= 0.2)

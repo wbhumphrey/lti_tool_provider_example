@@ -47,5 +47,6 @@ gem 'pg', group: :production
 
 gem 'rails_12factor'
 
-gem 'rails_lti2_provider', git: 'https://github.com/rivernate/rails_lti2_provider.git', ref: 'dc69e4dcdf68d164c8b41420842ae30e3307d13c'
+gem 'rails_lti2_provider', git: 'https://github.com/rivernate/rails_lti2_provider.git', ref: '76d0430dbf96deea1daef3af819c1b00ed3f0e65'
+
 gem 'react-rails', '~> 0.13.0.0'
