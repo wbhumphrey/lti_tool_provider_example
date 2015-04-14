@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103173121) do
+ActiveRecord::Schema.define(version: 20150402153006) do
 
   create_table "rails_lti2_provider_lti_launches", force: true do |t|
-    t.string   "tool_proxy_id"
+    t.string   "tool_id"
     t.string   "nonce"
     t.text     "message"
     t.datetime "created_at"
@@ -28,15 +28,16 @@ ActiveRecord::Schema.define(version: 20141103173121) do
     t.string   "workflow_state"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "tool_proxy_id"
+    t.integer  "tool_id"
   end
 
-  create_table "rails_lti2_provider_tool_proxies", force: true do |t|
+  create_table "rails_lti2_provider_tools", force: true do |t|
     t.string   "uuid"
     t.string   "shared_secret"
-    t.text     "proxy_json"
+    t.text     "tool_settings"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "lti_version"
   end
 
 end

@@ -47,6 +47,9 @@ gem 'pg', group: :production
 
 gem 'rails_12factor'
 
-gem 'rails_lti2_provider', git: 'https://github.com/rivernate/rails_lti2_provider.git', ref: '76d0430dbf96deea1daef3af819c1b00ed3f0e65'
+gem 'rails_lti2_provider', git: 'https://github.com/rivernate/rails_lti2_provider.git', ref: 'a274205bde31214a930281f38f02ad99716121e5'
+gem 'ims-lti', '~> 2.0.0.beta.19'
 
-gem 'react-rails', '~> 0.13.0.0'
+gem 'react-rails', '~> 1.0'
+
+gem 'simple_oauth', '0.2.0'

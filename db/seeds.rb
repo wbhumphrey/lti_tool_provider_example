@@ -5,3 +5,4 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+RailsLti2Provider::Tool.create(uuid: 'key', shared_secret:'secret', lti_version: 'LTI-1p0')
