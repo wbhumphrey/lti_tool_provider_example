@@ -13,8 +13,8 @@ XmlBuilder.Placements = React.createClass({
         <table className="table table-condensed">
           <thead>
           <tr>
-            <th className="text-center checkbox-col">Enable?</th>
-            <th>Placement Name</th>
+            <th className="text-center checkbox-col">Type</th>
+            <th>Title</th>
           </tr>
           </thead>
           <tbody>

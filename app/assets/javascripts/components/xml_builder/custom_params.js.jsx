@@ -11,24 +11,21 @@ XmlBuilder.CustomParams = React.createClass({
   },
 
   addRowHandler: function () {
-    var state = this.state;
-    state.customParams.push( {name: '', value: ''} );
-    this.setState( state );
+    var customParams = this.state.customParams;
+    customParams.push( {name: '', value: ''} );
+    this.setState( {customParams: customParams} );
   },
 
   handleDelete: function (index) {
-    var state = this.state;
-    state.customParams.splice(index, 1);
-    state.updateForm = true;
-    this.setState( state );
+    var customParams = this.state.customParams;
+    customParams.splice(index, 1);
+    this.setState( {customParams: customParams, updateForm: true} );
   },
 
   componentDidUpdate(prevProps, prevState) {
-    var state = this.state;
-    if(state.updateForm){
+    if(this.state.updateForm){
       this.props.onFormChange();
-      state.updateForm = false;
-      this.setState( state );
+      this.setState( {updateForm: false} );
     }
   },
 

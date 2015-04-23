@@ -14,9 +14,7 @@ var XmlBuilder = React.createClass({
   },
 
   formChangeHandler: function () {
-    var state = this.state
-    state.xmlUrl = this.props.baseUrl + "?" + $(this.refs.xmlForm.getDOMNode()).serialize();
-    this.setState(state);
+    this.setState({xmlUrl: this.props.baseUrl + "?" + $(this.refs.xmlForm.getDOMNode()).serialize() });
   },
 
   xmlUrlClickHandler: function (e) {
