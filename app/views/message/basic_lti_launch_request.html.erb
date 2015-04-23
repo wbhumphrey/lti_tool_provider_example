@@ -1,15 +1,2 @@
 <h1 style="text-align: center">Basic Lti Launch Request</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Parameter</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <% @lti_params.each do |k, v| %>
-        <tr>
-            <td><b><%= k %>:</b></td>
-            <td><%= v %></td>
-        </tr>
-    <% end %>
-</table>
+<%= render "message_info" %>

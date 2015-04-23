@@ -1,60 +1,19 @@
 LtiToolProvider::Application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  root to: 'guide#home'
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  get 'xml_config', to: 'guide#xml_config', as: :xml_config
+  get 'xml_builder', to: 'guide#xml_builder', as: :xml_builder
 
   resources :tool_proxy, only: [:create]
 
-  post 'messages/blti', to: 'message#basic_lti_launch_request'
+  post 'messages/blti', to: 'message#basic_lti_launch_request', as: 'blti_launch'
+  post 'messages/content-item', to: 'message#content_item_selection', as: 'content_item_request_launch'
+  post 'messages/content-item', to: 'message#basic_lti_launch_request', as: 'content_item_launch'
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  post 'register', to: 'registration#register', as: :tool_registration
+  post 'submit_capabilities', to: 'registration#save_capabilities', as: 'save_capabilities'
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+  mount RailsLti2Provider::Engine => "/rails_lti2_provider"
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

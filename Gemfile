@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
+
 ruby '2.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.5'
+gem 'rails', '4.1.6'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
@@ -37,8 +38,6 @@ end
 gem 'unicorn'
 
 
-gem 'ims-lti', '~> 2.0.0.beta.8'
-
 group :development, :test do
   gem 'pry', require: 'pry'
 end
@@ -47,3 +46,12 @@ gem 'sqlite3', group: [:development, :test]
 gem 'pg', group: :production
 
 gem 'rails_12factor'
+
+gem 'rails_lti2_provider', path: "/Users/nathanm/Development/rails_lti2_provider" #git: 'https://github.com/rivernate/rails_lti2_provider.git', ref: '0348b1d'
+gem 'ims-lti', path: "/Users/nathanm/Development/ims-lti" #'~> 2.0.0.beta.20'
+
+gem 'react-rails', '~> 1.0'
+
+gem 'simple_oauth', '0.2.0'
+
+gem 'lodash-rails', '~> 3.7.0'
