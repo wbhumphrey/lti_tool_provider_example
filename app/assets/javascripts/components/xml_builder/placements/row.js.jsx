@@ -14,8 +14,8 @@ XmlBuilder.Placements.Row = React.createClass({
           </label>
         </td>
         <td> {this.props.children} </td>
-        <td>
-            <XmlBuilder.Placements.MessageChoice messages={ messages } title={ this.props.children } />
+        <td className="message-type">
+            <XmlBuilder.Placements.MessageChoice messages={ messages } title={ this.props.children } placementKey={ this.props.placementKey }/>
         </td>
       </tr>
     );
