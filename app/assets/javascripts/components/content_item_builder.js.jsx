@@ -22,7 +22,7 @@ var ContentItems = React.createClass({
           "@id": this.props.ltiLaunchUrl,
           "url": this.props.ltiLaunchUrl,
           "title": "Test Lti Tool",
-          "mediaType": "application/vnd.ims.lti.v1.ltilink",
+          "mediaType": "application/vnd.ims.lti.v1.launch+json",
           "placementAdvice": {
             "displayWidth": 800,
             "presentationDocumentTarget": 'iframe',

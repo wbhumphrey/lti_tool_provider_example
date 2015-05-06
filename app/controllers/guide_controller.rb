@@ -26,13 +26,14 @@ class GuideController < ApplicationController
   def create_placement(tc, placement_key)
     message_type = request.query_parameters["#{placement_key}_message_type"] || :basic_lti_request
     navigation_params = case message_type
-            when 'content_item_selection'
-              { url:content_item_launch_url, message_type:'ContentItemSelection' }
-            when 'content_item_selection_request'
-              { url:content_item_request_launch_url, message_type:'ContentItemSelectionRequest' }
-            else
-              { url:blti_launch_url }
-          end
+                        when 'content_item_selection'
+                          {url: content_item_launch_url, message_type: 'ContentItemSelection'}
+                        when 'content_item_selection_request'
+                          {url: content_item_request_launch_url, message_type: 'ContentItemSelectionRequest'}
+                        else
+                          {url: blti_launch_url}
+                        end
+    tc.set_ext_param(CanvasExtensions::PLATFORM, :icon_url, view_context.asset_url('selector.png'))
     tc.set_ext_param(CanvasExtensions::PLATFORM, placement_key, navigation_params)
   end
 end
