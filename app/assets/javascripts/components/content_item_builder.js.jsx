@@ -5,6 +5,7 @@ var ContentItems = React.createClass({
     returnUrl: React.PropTypes.string,
     ltiVersion: React.PropTypes.string,
     ltiLaunchUrl: React.PropTypes.string,
+    textFileUrl: React.PropTypes.string,
     documentTargets: React.PropTypes.array
   },
 
@@ -14,7 +15,7 @@ var ContentItems = React.createClass({
       ltiMsg: "",
       ltiLog: "",
       ltiErrorMsg: "",
-      ltiErrorlog: "",
+      ltiErrorLog: "",
       contentItems: {
         "@context": "http://purl.imsglobal.org/ctx/lti/v1/ContentItem",
         "@graph": [{
@@ -22,6 +23,7 @@ var ContentItems = React.createClass({
           "@id": this.props.ltiLaunchUrl,
           "url": this.props.ltiLaunchUrl,
           "title": "Test Lti Tool",
+          "text": "Content Item",
           "mediaType": "application/vnd.ims.lti.v1.launch+json",
           "placementAdvice": {
             "displayWidth": 800,
@@ -44,7 +46,22 @@ var ContentItems = React.createClass({
     var contentItemType = React.findDOMNode(this.refs.contentItemType);
     var documentTarget = React.findDOMNode(this.refs.documentTarget);
     contentItem["@type"] = contentItemType.options[contentItemType.selectedIndex].value;
+    delete contentItem.copyAdvice
+    switch(contentItem["@type"]) {
+      case "FileItem":
+        contentItem['@id'] = this.props.textFileUrl;
+        contentItem.url = this.props.textFileUrl;
+        contentItem.mediaType = "text/plain";
+        contentItem.copyAdvice = true;
+        break;
+      default:
+      case "LtiLink":
+        contentItem['@id'] = this.props.ltiLaunchUrl;
+        contentItem.url = this.props.ltiLaunchUrl;
+        contentItem.mediaType = "application/vnd.ims.lti.v1.launch+json";
+    }
     contentItem.title = React.findDOMNode(this.refs.contentItemTitle).value;
+    contentItem.text = React.findDOMNode(this.refs.contentItemText).value;
     contentItem.placementAdvice.displayWidth = React.findDOMNode(this.refs.contentItemWidth).value;
     contentItem.placementAdvice.displayHeight = React.findDOMNode(this.refs.contentItemHeight).value;
     contentItem.placementAdvice.presentationDocumentTarget = documentTarget.options[documentTarget.selectedIndex].value;
@@ -87,16 +104,26 @@ var ContentItems = React.createClass({
             </td>
           </tr>
           <tr>
+            <td>
+              <label htmlFor="contentItemText">Text</label>
+            </td>
+            <td>
+              <input ref="contentItemText" onChange={this.contentItemChangeHandler} id="contentItemText"
+                     value={contentItem.text} type="text"/>
+            </td>
+          </tr>
+          <tr>
             <td><label htmlFor="contentItemType">Content Item</label></td>
             <td>
               <select ref="contentItemType" selected={contentItem['@type']}
                       onChange={this.contentItemChangeHandler} id="contentItemType">
                 <option value="LtiLink">LTI Link</option>
+                <option value="FileItem">File Item</option>
               </select>
             </td>
           </tr>
           <tr>
-            <td><label htmlFor="documentTarget">Content Item</label></td>
+            <td><label htmlFor="documentTarget">Document Target</label></td>
             <td>
               <select selected={contentItem.placementAdvice.presentationDocumentTarget}
                       onChange={this.contentItemChangeHandler} ref="documentTarget" id="documentTarget">
