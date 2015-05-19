@@ -11,8 +11,8 @@ messages:
   - type: basic-lti-launch-request
     route:
       path: "/default"
-      controller: "launch"
-      action: "default"
+      controller: "message"
+      action: "basic_lti_launch_request"
 ### List of parameters ###
 #    parameters:
 #      - name: #the name of the parameter
