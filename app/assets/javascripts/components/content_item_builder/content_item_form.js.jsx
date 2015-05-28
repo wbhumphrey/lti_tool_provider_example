@@ -14,7 +14,7 @@ ContentItemBuilder.ContentItemForm = React.createClass({
 
   render: function () {
     return (
-      <form ref="contentItemForm" action={this.props.returnUrl} method="post">
+      <form ref="contentItemForm" action={this.props.returnUrl} method="post" id="contentItemForm">
         <input type="hidden" name="lti_message_type" value="ContentItemSelection"/>
         <input type="hidden" name="lti_version" value={this.props.ltiVersion}/>
         <input type="hidden" name="data" value={this.props.data}/>

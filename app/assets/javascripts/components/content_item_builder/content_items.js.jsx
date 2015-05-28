@@ -4,7 +4,8 @@ ContentItemBuilder.ContentItems = React.createClass({
     initialContentItems: React.PropTypes.array,
     ltiLaunchUrl: React.PropTypes.string,
     textFileUrl: React.PropTypes.string,
-    documentTargets: React.PropTypes.array
+    documentTargets: React.PropTypes.array,
+    updateContentItems: React.PropTypes.func.isRequired
   },
 
   getInitialState: function () {
@@ -31,13 +32,23 @@ ContentItemBuilder.ContentItems = React.createClass({
     this.setState({contentItems: contentItems, updateForm: true});
   },
 
-  itemTemplate: function (type) {
-    var retVal = {};
-    switch (type) {
-      case "LtiLink":
-        retVal.url = '';
-        retVal.type = '';
-        retVal.mediaType = '';
+  handleChange: function(index, data) {
+    this.state.contentItems[index][data[0]] = data[1];
+    this.props.updateContentItems();
+  },
+
+  itemTemplate: function (contentItem) {
+    var retVal = this.baseContentItemJSON(contentItem);
+    switch (contentItem.type) {
+      case "ltiLink":
+        retVal.url = this.props.ltiLaunchUrl;
+        retVal.type = 'LtiLink';
+        retVal.mediaType = 'application/vnd.ims.lti.v1.ltilink';
+        break;
+      case "textFile":
+        retVal.url = this.props.textFileUrl;
+        retVal.type = 'FileItem';
+        retVal.mediaType = 'text/plain';
         break;
     }
     return retVal;
@@ -59,6 +70,7 @@ ContentItemBuilder.ContentItems = React.createClass({
     var contentItems = this.state.contentItems;
     var handleDelete = this.handleDelete;
     var documentTargets = this.props.documentTargets;
+    var handleChange = this.handleChange;
     return (
       <table className="table table-condensed">
         <thead>
@@ -79,16 +91,17 @@ ContentItemBuilder.ContentItems = React.createClass({
         {contentItems.map(function (contentItem, index) {
           return <ContentItemBuilder.ContentItems.Row
             onRowDelete={handleDelete}
+            onRowChange={handleChange}
             key={index}
             index={index}
             documentTargets={documentTargets}
-            itemTitle={contentItem.itemTitle}
-            itemText={contentItem.itemText}
-            itemType={contentItem.itemType}
-            itemWidth={contentItem.itemWidth}
-            itemHeight={contentItem.itemHeight}
-            itemPresentTarget={contentItem.itemPresentTarget}
-            itemWindowTarget={contentItem.itemWindowTarget}
+            title={contentItem.itemTitle}
+            text={contentItem.itemText}
+            type={contentItem.itemType}
+            width={contentItem.itemWidth}
+            height={contentItem.itemHeight}
+            presentationTarget={contentItem.itemPresentTarget}
+            windowTarget={contentItem.itemWindowTarget}
             />
         })}
         </tbody>
@@ -96,17 +109,28 @@ ContentItemBuilder.ContentItems = React.createClass({
     );
   },
 
+  setDefaultProp: function (contentItem, property, defaultValue) {
+    if (!contentItem[property]) {
+      contentItem[property] = defaultValue
+    }
+    return contentItem;
+  },
 
   //called from parent via ref attribute
   toJSON: function () {
+    var _this = this;
     var items = this.state.contentItems.map(function (contentItem) {
+
+      contentItem = _this.setDefaultProp(contentItem, 'type', 'textFile');
+      contentItem = _this.setDefaultProp(contentItem, 'presentationTarget', 'frame');
+
       return {
-        "@type": this.itemTemplate(contentItem.type).type,
-        "@id": this.itemTemplate(contentItem.type).url,
-        "url": this.itemTemplate(contentItem.type).url,
+        "@type": _this.itemTemplate(contentItem).type,
+        "@id": _this.itemTemplate(contentItem).url,
+        "url": _this.itemTemplate(contentItem).url,
         "title": contentItem.title,
         "text": contentItem.text,
-        "mediaType": this.itemTemplate(contentItem.type).mediaType,
+        "mediaType": _this.itemTemplate(contentItem).mediaType,
         "placementAdvice": {
           "displayWidth": 800,
           "presentationDocumentTarget": contentItem.presentationTarget,
@@ -121,5 +145,4 @@ ContentItemBuilder.ContentItems = React.createClass({
       }
     }
   }
-
 });

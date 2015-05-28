@@ -79,14 +79,8 @@ var ContentItemBuilder = React.createClass({
     };
   },
 
-  contentItemChangeHandler: function () {
-    contentItems
-    this.setState({
-      contentItems:{
-        "@context": "http://purl.imsglobal.org/ctx/lti/v1/ContentItem",
-        "@graph": []
-      }
-    });
+  updateContentItems: function () {
+    this.setState({contentItems: this.refs.contentItemsElement.toJSON()});
   },
 
   render: function () {
@@ -96,6 +90,8 @@ var ContentItemBuilder = React.createClass({
           ltiLaunchUrl={this.props.ltiLaunchUrl}
           textFileUrl={this.props.textFileUrl}
           documentTargets={this.props.documentTargets}
+          updateContentItems={this.updateContentItems}
+          ref="contentItemsElement"
           />
         <hr/>
         <ContentItemBuilder.ContentItemMessage
