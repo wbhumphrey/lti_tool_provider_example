@@ -2,15 +2,16 @@ ContentItemBuilder.ContentItems.Row = React.createClass({
 
   propTypes: {
     onRowDelete: React.PropTypes.func.isRequired,
+    onRowChange: React.PropTypes.func.isRequired,
     index: React.PropTypes.number.isRequired,
     documentTargets: React.PropTypes.array.isRequired,
-    itemTitle: React.PropTypes.string,
-    itemText: React.PropTypes.string,
-    itemType: React.PropTypes.string,
-    itemWidth: React.PropTypes.string,
-    itemHeight: React.PropTypes.string,
-    itemPresentTarget: React.PropTypes.string,
-    itemWindowTarget: React.PropTypes.string
+    title: React.PropTypes.string,
+    text: React.PropTypes.string,
+    type: React.PropTypes.string,
+    width: React.PropTypes.string,
+    height: React.PropTypes.string,
+    presentationTarget: React.PropTypes.string,
+    windowTarget: React.PropTypes.string
   },
 
   removeHandler: function () {
@@ -18,26 +19,36 @@ ContentItemBuilder.ContentItems.Row = React.createClass({
     this.props.onRowDelete(Number(index));
   },
 
+  tableChangeHandler: function (e) {
+    var index = React.findDOMNode(this.refs.index).value.trim();
+
+    var state = {};
+    state[e.target.id] = e.target.value;
+    this.setState(state);
+
+    this.props.onRowChange(Number(index), [e.target.id, e.target.value]);
+  },
+
   render: function () {
     var documentTargets = this.props.documentTargets;
     return (
       <tr>
-        <td><input ref="itemTitle" defaultValue={this.props.itemTitle} type="text"></input></td>
-        <td><input ref="itemText" defaultValue={this.props.itemText} type="text"></input></td>
+        <td><input ref="itemTitle" id="title" onChange={this.tableChangeHandler} defaultValue={this.props.itemTitle} type="text"></input></td>
+        <td><input ref="itemText" id="text" onChange={this.tableChangeHandler} defaultValue={this.props.itemText} type="text"></input></td>
         <td>
-          <select ref="itemType" id="itemType">
+          <select ref="itemType" id="type" onChange={this.tableChangeHandler}>
             <option value="textFile">Text File</option>
             <option value="ltiLink">LTI Link</option>
           </select>
         </td>
         <td>
-          <select ref="itemPresentTarget" id="itemPresentTarget">
+          <select ref="itemPresentTarget" id="presentationTarget" onChange={this.tableChangeHandler}>
             {documentTargets.map(function (value) {
               return <option key={value} value={value}>{value}</option>
             })};
           </select>
         </td>
-        <td><input ref="itemWindowTarget" defaultValue={this.props.itemWindowTarget} type="text"></input></td>
+        <td><input ref="itemWindowTarget" id="windowTarget" onChange={this.tableChangeHandler} defaultValue={this.props.itemWindowTarget} type="text"></input></td>
         <td className="add-remove-col">
           <input type="hidden" ref="index" value={this.props.index}></input>
           <a href="#" onClick={this.removeHandler}>

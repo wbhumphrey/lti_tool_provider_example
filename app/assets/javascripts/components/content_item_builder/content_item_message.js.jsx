@@ -19,7 +19,7 @@ ContentItemBuilder.ContentItemMessage = React.createClass({
   formChangeHandler: function (e) {
     var state = {};
     state[e.target.id] = e.target.value;
-    setState(state);
+    this.setState(state);
   },
 
   formSubmitHandler: function () {
