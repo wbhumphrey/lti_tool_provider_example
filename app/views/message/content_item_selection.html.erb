@@ -7,7 +7,8 @@
                     ltiVersion:@message.lti_version,
                     ltiLaunchUrl:blti_launch_url,
                     textFileUrl: asset_url('test_file.txt'),
-                    documentTargets:@message.accept_presentation_document_targets.split(',')
+                    documentTargets:@message.accept_presentation_document_targets.split(','),
+                    mediaTypes:@message.accept_media_types.split(',')
     ) %>
 
 <h4>LTI Message</h4>

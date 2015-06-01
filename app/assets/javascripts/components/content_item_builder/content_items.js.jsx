@@ -5,6 +5,7 @@ ContentItemBuilder.ContentItems = React.createClass({
     ltiLaunchUrl: React.PropTypes.string,
     textFileUrl: React.PropTypes.string,
     documentTargets: React.PropTypes.array,
+    mediaTypes: React.PropTypes.array,
     updateContentItems: React.PropTypes.func.isRequired
   },
 
@@ -39,13 +40,14 @@ ContentItemBuilder.ContentItems = React.createClass({
 
   itemTemplate: function (contentItem) {
     var retVal = this.baseContentItemJSON(contentItem);
+
     switch (contentItem.type) {
-      case "ltiLink":
+      case "Lti Link":
         retVal.url = this.props.ltiLaunchUrl;
         retVal.type = 'LtiLink';
         retVal.mediaType = 'application/vnd.ims.lti.v1.ltilink';
         break;
-      case "textFile":
+      case "File Item":
         retVal.url = this.props.textFileUrl;
         retVal.type = 'FileItem';
         retVal.mediaType = 'text/plain';
@@ -70,6 +72,7 @@ ContentItemBuilder.ContentItems = React.createClass({
     var contentItems = this.state.contentItems;
     var handleDelete = this.handleDelete;
     var documentTargets = this.props.documentTargets;
+    var mediaTypes = this.matchTypes();
     var handleChange = this.handleChange;
     return (
       <table className="table table-condensed">
@@ -94,6 +97,7 @@ ContentItemBuilder.ContentItems = React.createClass({
             onRowChange={handleChange}
             key={index}
             index={index}
+            mediaTypes={mediaTypes}
             documentTargets={documentTargets}
             title={contentItem.itemTitle}
             text={contentItem.itemText}
@@ -109,20 +113,45 @@ ContentItemBuilder.ContentItems = React.createClass({
     );
   },
 
+  matchTypes: function() {
+    var ltiLinkMatch = /(application\/\*|application\/vnd\.ims\.lti\.v1\.ltilink|\*\/vnd\.ims\.lti\.v1\.ltilink)/;
+    var fileItemMatch = /(text\/\*|text\/plain|\*\/plain)/;
+    var allMatch = /\*\/\*/;
+
+    var mediaTypes = this.props.mediaTypes;
+    var supportedTypes = [];
+
+    for (var type in mediaTypes) {
+      if (mediaTypes[type].toLowerCase().match(allMatch)) {
+        supportedTypes.push('Lti Link');
+        supportedTypes.push('File Item');
+        break;
+      } else if (mediaTypes[type].toLowerCase().match(fileItemMatch)) {
+        supportedTypes.push('File Item');
+        break;
+      } else if (mediaTypes[type].toLowerCase().match(ltiLinkMatch)) {
+        supportedTypes.push('Lti Link');
+      }
+    }
+
+    return supportedTypes;
+  },
+
   setDefaultProp: function (contentItem, property, defaultValue) {
     if (!contentItem[property]) {
       contentItem[property] = defaultValue
     }
+
     return contentItem;
   },
 
   //called from parent via ref attribute
   toJSON: function () {
     var _this = this;
+    var mediaTypes = this.matchTypes();
     var items = this.state.contentItems.map(function (contentItem) {
-
-      contentItem = _this.setDefaultProp(contentItem, 'type', 'textFile');
-      contentItem = _this.setDefaultProp(contentItem, 'presentationTarget', 'frame');
+      contentItem = _this.setDefaultProp(contentItem, 'type', mediaTypes[0]);
+      contentItem = _this.setDefaultProp(contentItem, 'presentationTarget', _this.props.documentTargets[0]);
 
       return {
         "@type": _this.itemTemplate(contentItem).type,
