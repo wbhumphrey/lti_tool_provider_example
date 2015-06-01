@@ -6,7 +6,8 @@ var ContentItemBuilder = React.createClass({
     ltiVersion: React.PropTypes.string,
     ltiLaunchUrl: React.PropTypes.string,
     textFileUrl: React.PropTypes.string,
-    documentTargets: React.PropTypes.array
+    documentTargets: React.PropTypes.array,
+    mediaTypes: React.PropTypes.array
   },
 
   //getInitialState: function () {
@@ -79,14 +80,8 @@ var ContentItemBuilder = React.createClass({
     };
   },
 
-  contentItemChangeHandler: function () {
-    contentItems
-    this.setState({
-      contentItems:{
-        "@context": "http://purl.imsglobal.org/ctx/lti/v1/ContentItem",
-        "@graph": []
-      }
-    });
+  updateContentItems: function () {
+    this.setState({contentItems: this.refs.contentItemsElement.toJSON()});
   },
 
   render: function () {
@@ -96,6 +91,9 @@ var ContentItemBuilder = React.createClass({
           ltiLaunchUrl={this.props.ltiLaunchUrl}
           textFileUrl={this.props.textFileUrl}
           documentTargets={this.props.documentTargets}
+          mediaTypes={this.props.mediaTypes}
+          updateContentItems={this.updateContentItems}
+          ref="contentItemsElement"
           />
         <hr/>
         <ContentItemBuilder.ContentItemMessage

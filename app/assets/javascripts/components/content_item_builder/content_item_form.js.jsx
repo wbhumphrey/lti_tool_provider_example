@@ -13,12 +13,30 @@ ContentItemBuilder.ContentItemForm = React.createClass({
 
 
   render: function () {
+    if (this.props.contentItems['@graph'] && this.props.contentItems['@graph'].length === 0) {
+      this.props.contentItems['@graph'].push({
+        "@type": '',
+        "@id": '',
+        "url": '',
+        "title": '',
+        "text": '',
+        "mediaType": '',
+        "placementAdvice": {
+          "displayWidth": '',
+          "presentationDocumentTarget": '',
+          "displayHeight": ''
+        }
+      });
+    }
+
+    var contentItems = this.props.contentItems.contentItems || this.props.contentItems;
+    
     return (
-      <form ref="contentItemForm" action={this.props.returnUrl} method="post">
+      <form ref="contentItemForm" action={this.props.returnUrl} method="post" id="contentItemForm">
         <input type="hidden" name="lti_message_type" value="ContentItemSelection"/>
         <input type="hidden" name="lti_version" value={this.props.ltiVersion}/>
         <input type="hidden" name="data" value={this.props.data}/>
-        <input type="hidden" name="content_items" value={this.props.contentItems}/>
+        <input type="hidden" name="content_items" value={JSON.stringify(contentItems)}/>
         <input type="hidden" name="lti_msg" value={this.props.ltiMsg}/>
         <input type="hidden" name="lti_log" value={this.props.ltiLog}/>
         <input type="hidden" name="lti_errormsg" value={this.props.ltiErrorMsg}/>
