@@ -32,6 +32,7 @@ class MessageController < ApplicationController
   private
 
   def process_message
+    logger.debug "This is a test. BANANA"
     @secret = "&#{RailsLti2Provider::Tool.find(@lti_launch.tool_id).shared_secret}"
     #TODO: should we create the lti_launch with all of the oauth params as well?
     @message = (@lti_launch && @lti_launch.message) || IMS::LTI::Models::Messages::Message.generate(request.request_parameters.merge(request.query_parameters))

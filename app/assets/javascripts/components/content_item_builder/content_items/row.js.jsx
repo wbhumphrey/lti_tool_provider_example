@@ -42,7 +42,7 @@ ContentItemBuilder.ContentItems.Row = React.createClass({
           <td>
             <select ref="itemType" id="type" onChange={this.tableChangeHandler}>
               {mediaTypes.map(function (value) {
-                return <option key={value} value={value}>{value}</option>
+                return <option key={value} value={value}>{value === 'CC' ? 'File Item' : value}</option>
               })};
             </select>
           </td>

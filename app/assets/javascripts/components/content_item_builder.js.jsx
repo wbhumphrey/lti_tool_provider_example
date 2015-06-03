@@ -6,6 +6,7 @@ var ContentItemBuilder = React.createClass({
     ltiVersion: React.PropTypes.string,
     ltiLaunchUrl: React.PropTypes.string,
     textFileUrl: React.PropTypes.string,
+    ccFileUrl: React.PropTypes.string,
     documentTargets: React.PropTypes.array,
     mediaTypes: React.PropTypes.array
   },
@@ -82,6 +83,7 @@ var ContentItemBuilder = React.createClass({
 
   updateContentItems: function () {
     this.setState({contentItems: this.refs.contentItemsElement.toJSON()});
+    console.log(this.state.contentItems);
   },
 
   render: function () {
@@ -90,6 +92,7 @@ var ContentItemBuilder = React.createClass({
         <ContentItemBuilder.ContentItems
           ltiLaunchUrl={this.props.ltiLaunchUrl}
           textFileUrl={this.props.textFileUrl}
+          ccFileUrl={this.props.ccFileUrl}
           documentTargets={this.props.documentTargets}
           mediaTypes={this.props.mediaTypes}
           updateContentItems={this.updateContentItems}

@@ -7,6 +7,7 @@
                     ltiVersion:@message.lti_version,
                     ltiLaunchUrl:blti_launch_url,
                     textFileUrl: asset_url('test_file.txt'),
+                    ccFileUrl: asset_url('test-course-export.imscc'),
                     documentTargets:@message.accept_presentation_document_targets.split(','),
                     mediaTypes:@message.accept_media_types.split(',')
     ) %>
