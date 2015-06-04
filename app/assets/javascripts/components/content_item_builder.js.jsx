@@ -83,7 +83,6 @@ var ContentItemBuilder = React.createClass({
 
   updateContentItems: function () {
     this.setState({contentItems: this.refs.contentItemsElement.toJSON()});
-    console.log(this.state.contentItems);
   },
 
   render: function () {
