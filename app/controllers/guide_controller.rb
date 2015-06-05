@@ -21,22 +21,19 @@ class GuideController < ApplicationController
     render xml: tc.to_xml(:indent => 2)
   end
 
-
   private
 
   def create_placement(tc, placement_key)
-    platform = CanvasExtensions::PLATFORM
-    placement = CanvasExtensions::PLACEMENTS.find { |p| p[:key] == placement_key }
-    navigation_params = case placement[:message]
-                          when :content_item_selection
-                            {:url => content_item_launch_url, message_type: 'ContentItemSelection'}
-                          when :content_item_selection_request
-                            {:url => content_item_request_launch_url, message_type: 'ContentItemSelectionRequest'}
-                          else
-                            {:url => blti_launch_url}
+    message_type = request.query_parameters["#{placement_key}_message_type"] || :basic_lti_request
+    navigation_params = case message_type
+                        when 'content_item_selection'
+                          {url: content_item_launch_url, message_type: 'ContentItemSelection'}
+                        when 'content_item_selection_request'
+                          {url: content_item_request_launch_url, message_type: 'ContentItemSelectionRequest'}
+                        else
+                          {url: blti_launch_url}
                         end
-    navigation_params[:message_type] = 'ContentItemSelection' if placement[:message] == :content_item_selection
-    tc.set_ext_param(platform, placement_key, navigation_params)
+    tc.set_ext_param(CanvasExtensions::PLATFORM, :icon_url, view_context.asset_url('selector.png'))
+    tc.set_ext_param(CanvasExtensions::PLATFORM, placement_key, navigation_params)
   end
-
 end

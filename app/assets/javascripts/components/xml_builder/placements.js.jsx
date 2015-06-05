@@ -15,11 +15,12 @@ XmlBuilder.Placements = React.createClass({
           <tr>
             <th className="text-center checkbox-col">Type</th>
             <th>Title</th>
+            <th>Message Type</th>
           </tr>
           </thead>
           <tbody>
           {placements.map(function (placement) {
-            return <XmlBuilder.Placements.Row key={placement.key} placementKey={placement.key} >{placement.name}</XmlBuilder.Placements.Row>
+            return <XmlBuilder.Placements.Row key={placement.key} placementKey={placement.key} message={placement.message} >{placement.name}</XmlBuilder.Placements.Row>
           })}
           </tbody>
         </table>

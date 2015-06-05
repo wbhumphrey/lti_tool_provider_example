@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/rivernate/rails_lti2_provider.git
-  revision: 49751d629724b7de9f113075b7c92845f7353795
-  ref: 49751d629
+  revision: 77adec564c4d0c51f84807768d5a58cd877cfaff
+  ref: 77adec5
   specs:
-    rails_lti2_provider (0.0.2)
-      ims-lti (~> 2.0.0.beta.21)
+    rails_lti2_provider (0.0.1)
+      ims-lti (~> 2.0.0.beta.22)
       rails (~> 4.1.6)
 
 GEM
@@ -55,7 +55,7 @@ GEM
       faraday (>= 0.7.4, < 0.10)
     hike (1.2.3)
     i18n (0.7.0)
-    ims-lti (2.0.0.beta.21)
+    ims-lti (2.0.0.beta.26)
       builder
       faraday (~> 0.8)
       faraday_middleware (~> 0.8)
@@ -157,7 +157,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
-  ims-lti (~> 2.0.0.beta.21)
+  ims-lti (~> 2.0.0.beta.22)
   jbuilder (~> 1.2)
   jquery-rails
   lodash-rails (~> 3.7.0)
