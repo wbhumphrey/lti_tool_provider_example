@@ -4,6 +4,7 @@ ContentItemBuilder.ContentItems = React.createClass({
     initialContentItems: React.PropTypes.array,
     ltiLaunchUrl: React.PropTypes.string,
     textFileUrl: React.PropTypes.string,
+    ccFileUrl: React.PropTypes.string,
     documentTargets: React.PropTypes.array,
     mediaTypes: React.PropTypes.array,
     updateContentItems: React.PropTypes.func.isRequired
@@ -40,7 +41,6 @@ ContentItemBuilder.ContentItems = React.createClass({
 
   itemTemplate: function (contentItem) {
     var retVal = this.baseContentItemJSON(contentItem);
-
     switch (contentItem.type) {
       case "Lti Link":
         retVal.url = this.props.ltiLaunchUrl;
@@ -51,6 +51,11 @@ ContentItemBuilder.ContentItems = React.createClass({
         retVal.url = this.props.textFileUrl;
         retVal.type = 'FileItem';
         retVal.mediaType = 'text/plain';
+        break;
+      case "CC":
+        retVal.url = this.props.ccFileUrl;
+        retVal.type = 'FileItem';
+        retVal.mediaType = 'application/zip';
         break;
     }
     return retVal;
@@ -116,21 +121,26 @@ ContentItemBuilder.ContentItems = React.createClass({
   matchTypes: function() {
     var ltiLinkMatch = /(application\/\*|application\/vnd\.ims\.lti\.v1\.ltilink|\*\/vnd\.ims\.lti\.v1\.ltilink)/;
     var fileItemMatch = /(text\/\*|text\/plain|\*\/plain)/;
+    var applicationMatch = /application\/zip/;
+
     var allMatch = /\*\/\*/;
 
     var mediaTypes = this.props.mediaTypes;
     var supportedTypes = [];
 
     for (var type in mediaTypes) {
-      if (mediaTypes[type].toLowerCase().match(allMatch)) {
+      var contentType = mediaTypes[type].toLowerCase();
+      if (contentType.match(allMatch)) {
         supportedTypes.push('Lti Link');
         supportedTypes.push('File Item');
         break;
-      } else if (mediaTypes[type].toLowerCase().match(fileItemMatch)) {
+      } else if (contentType.match(fileItemMatch)) {
         supportedTypes.push('File Item');
         break;
-      } else if (mediaTypes[type].toLowerCase().match(ltiLinkMatch)) {
+      } else if (contentType.match(ltiLinkMatch)) {
         supportedTypes.push('Lti Link');
+      } else if (contentType.match(applicationMatch)) {
+        supportedTypes.push('CC');
       }
     }
 
